@@ -16,8 +16,8 @@ const createMovie = async (movieData: IMovie) => {
     return movies;
 }
 const deleteMovie = async (userId: string, movieId: string) => {
-    const returnedVal = await movieModel.deleteOne({ _id: movieId, createdBy: userId });
-    return returnedVal.deletedCount;
+    const movie = await movieModel.findOneAndDelete({ _id: movieId, createdBy: userId });
+    return movie;
 }
 
 export { getAllMovies, getMovieById, createMovie, deleteMovie }

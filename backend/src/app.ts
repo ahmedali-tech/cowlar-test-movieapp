@@ -5,9 +5,10 @@ import { ICustomRequest, ICustomError } from './types/express';
 import { AppError } from './utils/app-error';
 
 // Controllers
-const errorController = require('./controllers/error/index');
-const authRoutes = require('./routes/auth/index')
+const errorController = require('./controllers/error');
+const authRoutes = require('./routes/auth')
 const movieRoutes = require('./routes/movie')
+const reviewRoutes = require('./routes/review')
 
 
 // Libraries imports
@@ -29,7 +30,8 @@ app.use((req: ICustomRequest, res: Response, next: NextFunction) => {
 
 // API routes
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/movie', movieRoutes);
+app.use('/api/v1/movies', reviewRoutes);
+app.use('/api/v1/movies', movieRoutes);
 
 app.get('/', (req: Request, res: Response) => {
 	res.send('Hello from the server!');

@@ -48,9 +48,9 @@ const deleteMovie = catchAsync(async (req: ICustomRequest, res: ICustomResponse,
 
     const movieId = req.params.id
 
-    const deletedCount = await deleteMovieService(userId, movieId);
+    const deletedMovie = await deleteMovieService(userId, movieId);
 
-    if (deletedCount === 0) {
+    if (!deletedMovie) {
         return res.status(404).json({
             message: "fail",
             data: "No such movie found for the user"
