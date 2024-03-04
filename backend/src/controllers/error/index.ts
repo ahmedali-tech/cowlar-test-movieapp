@@ -7,6 +7,7 @@ const handleCastErr = (err: any): any => {
 }
 const handleValidationErr = (err: any): any => {
     return new AppError(`${err.message}`, 400);
+    
 }
 
 const handleDuplicateKeyErr = (err: any): any => {

@@ -6,7 +6,9 @@ import { AppError } from './utils/app-error';
 
 // Controllers
 const errorController = require('./controllers/error/index');
-const AuthRoutes = require('./routes/auth/index')
+const authRoutes = require('./routes/auth/index')
+const movieRoutes = require('./routes/movie')
+
 
 // Libraries imports
 import morgan from 'morgan';
@@ -26,7 +28,8 @@ app.use((req: ICustomRequest, res: Response, next: NextFunction) => {
 });
 
 // API routes
-app.use('/api/v1/auth', AuthRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/movie', movieRoutes);
 
 app.get('/', (req: Request, res: Response) => {
 	res.send('Hello from the server!');
