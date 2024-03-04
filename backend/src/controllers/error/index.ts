@@ -5,6 +5,9 @@ import { AppError } from "../../utils/app-error";
 const handleCastErr = (err: any): any => {
     return new AppError(`Incorrect ${err.path}: ${err.value}`, 400);
 }
+const handleValidationErr = (err: any): any => {
+    return new AppError(`${err.message}`, 400);
+}
 
 const handleDuplicateKeyErr = (err: any): any => {
     const dupKey = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
@@ -16,6 +19,7 @@ module.exports = (err: ICustomError, req: Request, res: ICustomResponse, next: N
     err.status = err.status || "error";
 
     if (err.name === "CastError") err = handleCastErr(err);
+    if (err.name === "ValidationError") err = handleValidationErr(err);
     if (err.code === 11000) err = handleDuplicateKeyErr(err);
 
     res.status(err.statusCode).json({

@@ -1,6 +1,7 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
+
 interface IUser extends Document {
 	name: string;
 	password: string;
@@ -42,17 +43,21 @@ const userSchema = new mongoose.Schema({
 			message: 'Invalid Phone number format',
 		},
 	},
+
 }, { collection: 'user' });
+
 userSchema.methods.encryptPassword = async (pass_: string) => {
 	const saltRounds = 10;
 	const salt = await bcrypt.genSalt(saltRounds);
 	const hash = bcrypt.hash(pass_, salt);
 	return hash;
 };
+
 userSchema.pre<IUser>('save', async function (next: any) {
 	this.password = await bcrypt.hash(this.password, 12);
 	next();
 });
+
 userSchema.methods.matchPassword = async function (pass_: string) {
 	const match = await bcrypt.compare(pass_, this.password);
 	return match;
