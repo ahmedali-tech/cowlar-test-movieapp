@@ -17,7 +17,6 @@ function Home() {
     const { register, handleSubmit } = useForm();
 
     const { isLoggedIn, user } = useContext(UserContext);
-    // const {shouldRefetchMovies, setShouldRe}
 
     const { pageLoading } = useAuthVerification();
 
@@ -114,8 +113,8 @@ function Home() {
                                     to={"/own-movies"}
                                     className='text-white bg-primaryGreen hover:bg-secondaryGreen hover:text-white font-medium rounded-lg text-sm px-4 py-2 text-center'
                                 >
-                                    <FontAwesomeIcon icon={faArrowRight} className='pr-1' />
-                                    Go to Own Movies
+                                    View own movies
+                                    <FontAwesomeIcon icon={faArrowRight} className='pl-2' />
                                 </Link>
                             </div>
                         </div>

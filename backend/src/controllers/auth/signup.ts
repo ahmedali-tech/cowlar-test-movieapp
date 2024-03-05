@@ -9,7 +9,7 @@ const signUpController = catchAsync(async (req: ICustomRequest, res: ICustomResp
     const { name, password, email, phoneNumber } = req.body;
 
     const newUser = await signUpService(name, password, email, phoneNumber);
-    if (!newUser) return next(new AppError("Error signing up! Pleae try again", 403));
+    if (!newUser) return next(new AppError("Error signing up! Pleae try again", 500));
 
     const jwtToken = generateJWT(newUser._id, next);
 

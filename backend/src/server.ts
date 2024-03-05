@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import mongoose from 'mongoose';
-const app = require('./app');
+import app from './app';
 
 import establishDBConnection from './config/db';
 

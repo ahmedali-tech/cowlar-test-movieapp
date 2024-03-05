@@ -15,6 +15,7 @@ const LoadingIcon = () => (
     <svg
         aria-hidden="true"
         role="status"
+        data-testid="loading-icon"
         className="inline mr-3 w-4 h-4 text-white animate-spin"
         viewBox="0 0 100 101"
         fill="none"

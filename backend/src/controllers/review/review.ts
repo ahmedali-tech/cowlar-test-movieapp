@@ -38,6 +38,8 @@ const getReview = catchAsync(async (req: ICustomRequest, res: ICustomResponse, n
 
     const review = await getReviewService(movieId, reviewId)
 
+    if (!review) return next(new AppError("Review was not found", 404))
+
     return res.status(200).json({
         message: "success",
         data: review

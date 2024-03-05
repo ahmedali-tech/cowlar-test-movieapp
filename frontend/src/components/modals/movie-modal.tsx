@@ -100,7 +100,7 @@ const MovieModal: FC<Props> = ({ isOpen, onClose, onSubmit }) => {
                                         placeholder="Name"
                                         className="block w-full rounded-lg border border-gray-300 text-white bg-[#292929] p-2.5 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                         {...register('name', {
-                                            required: 'name is required',
+                                            required: 'Name is required',
                                         })}
                                     />
                                     {errors.name && <span className="text-sm text-red-500">{errors.name.message?.toString()}</span>}
@@ -152,7 +152,7 @@ const MovieModal: FC<Props> = ({ isOpen, onClose, onSubmit }) => {
 
                                 <div className="relative">
                                     <label
-                                        htmlFor="Genre"
+                                        htmlFor="genre"
                                         className="mb-2 block text-[20px] font-medium text-white"
                                     >
                                         Genre

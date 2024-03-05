@@ -32,7 +32,7 @@ const useAuthVerification = (isRedirectionAllowed = false) => {
                 }
             }
             else {
-                toast("Hi, you're in guest mode. Log In!", {
+                toast("Hi, you're in guest mode!", {
                     icon: '👏', duration: 2000
                 });
                 if (isRedirectionAllowed) navigate("/login");

@@ -9,6 +9,7 @@ const errorController = require('./controllers/error');
 const authRoutes = require('./routes/auth')
 const movieRoutes = require('./routes/movie')
 const reviewRoutes = require('./routes/review')
+const userRoutes = require('./routes/user')
 
 
 // Libraries imports
@@ -32,6 +33,7 @@ app.use((req: ICustomRequest, res: Response, next: NextFunction) => {
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/movies', reviewRoutes);
 app.use('/api/v1/movies', movieRoutes);
+app.use('/api/v1/user', userRoutes);
 
 app.get('/', (req: Request, res: Response) => {
 	res.send('Hello from the server!');
@@ -47,4 +49,4 @@ app.all("*", (req: ICustomRequest, res: Response, next: NextFunction) => {
 app.use(errorController);
 
 
-module.exports = app;
+export default app;

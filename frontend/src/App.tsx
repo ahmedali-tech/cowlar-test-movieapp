@@ -16,7 +16,8 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/movies/:id" element={<MovieDetails />} />
-          <Route path="/own-movies" element={<OwnMovies/>} />
+          <Route path="/movies" element={<Home />} />
+          <Route path="/own-movies" element={<OwnMovies />} />
           <Route
             path="*"
             element={<PageNotFound />}

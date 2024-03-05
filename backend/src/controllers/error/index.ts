@@ -20,6 +20,8 @@ const handleDuplicateKeyErr = (err: any): any => {
 }
 
 module.exports = (err: ICustomError, req: Request, res: ICustomResponse, next: NextFunction): void => {
+    
+    console.log(err)
     err.statusCode = err.statusCode || 500;
     err.status = err.status || "error";
 
