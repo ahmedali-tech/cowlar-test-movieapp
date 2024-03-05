@@ -6,6 +6,7 @@ export default {
       colors: {
         primaryGreen: '#00cc00',
         secondaryGreen: '#66ff33',
+        backgroundBlack: 'rgba(0,0,0,.93)'
        
       },
     },

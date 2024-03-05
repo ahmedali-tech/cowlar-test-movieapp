@@ -73,7 +73,7 @@ function LogIn() {
                                 Don't have an account?{' '}
                                 <Link
                                     to="/signup"
-                                    className="font-medium text-primaryGreen hover:underline opacity-[0.9]"
+                                    className="font-medium text-primaryRed hover:underline opacity-[0.9]"
                                 >
                                     Sign Up
                                 </Link>
