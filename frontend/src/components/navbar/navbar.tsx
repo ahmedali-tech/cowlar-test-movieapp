@@ -1,12 +1,10 @@
-import React, { useContext } from 'react'
-import { faUser } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../../context';
 import useLogOut from '../../hooks/useLogOut';
 
 function Navbar() {
-    const { isLoggedIn, user, setIsLoggedIn, updateUser } = useContext(UserContext);
+    const { isLoggedIn, user } = useContext(UserContext);
     const { logoutHandler } = useLogOut();
 
     return (
@@ -19,7 +17,8 @@ function Navbar() {
                     {
                         isLoggedIn ? (
                             <>
-                                <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                                <div className="flex items-center gap-5 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                                    <p className='font-medium text-white'>Hello, {user?.name || "user"}</p>
                                     <button onClick={() => logoutHandler()} type="button" className="text-white bg-primaryGreen hover:bg-secondaryGreen font-medium rounded-lg text-sm px-4 py-2 text-center">Log out</button>
                                 </div>
                             </>

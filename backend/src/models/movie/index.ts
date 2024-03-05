@@ -34,7 +34,7 @@ const movieSchema = new mongoose.Schema({
 	},
 	videoUrl: {
 		type: String,
-		default: "https://www.youtube.com/watch?v=QfFasuouxQI&pp=ygUMbGlmdCB0cmFpbGVy"
+		default: "https://www.youtube.com/embed/qEVUtrk8_B4?si=_vOgbLKay-BVHPnz"
 	},
 	genre: {
 		type: String,

@@ -1,7 +1,6 @@
 import { faChevronDown, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { FC, useContext, useEffect, useState } from 'react';
-import StarRating from '../star-rating';
+import { FC, useContext, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import BasicButton from '../button/basic-button';
 import { createMovies } from '../../api/movies';

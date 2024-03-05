@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ContainerLayout from '../../Layout/ContainerLayout';
 import { MovieCard } from '../../components/movie-card';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faPlus } from '@fortawesome/free-solid-svg-icons';
 import RootLayout from '../../Layout/RootLayout';
 import React, { useContext } from 'react';
 import MovieModal from '../../components/modals/movie-modal';
@@ -11,6 +11,7 @@ import { getAllMovies } from '../../api/movies';
 import Loading from '../../components/loading';
 import { UserContext } from '../../context';
 import useAuthVerification from '../../hooks/useAuthentication';
+import { Link } from 'react-router-dom';
 
 function Home() {
     const { register, handleSubmit } = useForm();
@@ -96,18 +97,27 @@ function Home() {
             <RootLayout>
                 <ContainerLayout>
                     <div className='flex flex-col'>
-                        <div className='flex justify-between'>
+                        <div className='flex justify-center flex-wrap gap-3 sm:justify-between'>
                             <h2 className='capitalize text-2xl font-bold md:text-3xl'>
                                 All Movies
                             </h2>
-                            <button
-                                type='button'
-                                className='text-white bg-primaryGreen hover:bg-secondaryGreen font-medium rounded-lg text-sm px-4 py-2 text-center'
-                                onClick={openModal}
-                            >
-                                <FontAwesomeIcon icon={faPlus} className='pr-1' />
-                                Add Movie
-                            </button>
+                            <div className='flex gap-4'>
+                                <button
+                                    type='button'
+                                    className='text-white bg-primaryGreen hover:bg-secondaryGreen font-medium rounded-lg text-sm px-4 py-2 text-center'
+                                    onClick={openModal}
+                                >
+                                    <FontAwesomeIcon icon={faPlus} className='pr-1' />
+                                    Add Movie
+                                </button>
+                                <Link
+                                    to={"/own-movies"}
+                                    className='text-white bg-primaryGreen hover:bg-secondaryGreen hover:text-white font-medium rounded-lg text-sm px-4 py-2 text-center'
+                                >
+                                    <FontAwesomeIcon icon={faArrowRight} className='pr-1' />
+                                    Go to Own Movies
+                                </Link>
+                            </div>
                         </div>
                         <div className='py-5 flex items-end justify-center'>
                             <form onSubmit={handleSubmit(reFetchMovies)}>
@@ -128,9 +138,9 @@ function Home() {
                                         >
                                             <path
                                                 stroke='currentColor'
-                                                stroke-linecap='round'
-                                                stroke-linejoin='round'
-                                                stroke-width='2'
+                                                strokeLinecap='round'
+                                                strokeLinejoin='round'
+                                                strokeWidth='2'
                                                 d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'
                                             />
                                         </svg>

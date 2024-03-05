@@ -1,7 +1,7 @@
 import { faPenToSquare, faUser } from '@fortawesome/free-regular-svg-icons'
-import { faL, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { Dispatch, FC, SetStateAction, useContext } from 'react'
+import { Dispatch, FC, SetStateAction, useContext } from 'react'
 import StarRating from '../star-rating'
 import { UserContext } from '../../context'
 import { deleteReviews } from '../../api/reviews'
@@ -51,7 +51,7 @@ const ReviewCard: FC<IReviewProps> = ({ own = false, reviewBody, setReFetchRevie
     return (
         <>
             <article className="p-6 text-base bg-[#292929] rounded-lg dark:bg-gray-900 my-3">
-                <footer className="flex justify-between items-center mb-2">
+                <footer className="flex justify-between items-center mb-2 flex-wrap gap-3 sm:gap-0">
                     <div className="flex items-center">
                         <p className="inline-flex items-center mr-3 text-sm text-[#e7e7e7] dark:text-white font-semibold">
                             <div className='flex items-center'>

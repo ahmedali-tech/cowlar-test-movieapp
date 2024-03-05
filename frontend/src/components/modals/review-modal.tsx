@@ -1,6 +1,6 @@
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 import StarRating from '../star-rating';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import BasicButton from '../button/basic-button';

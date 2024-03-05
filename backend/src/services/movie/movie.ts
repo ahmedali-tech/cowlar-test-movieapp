@@ -16,8 +16,13 @@ const createMovie = async (movieData: IMovie) => {
     const movies = await movieModel.create(movieData);
     return movies;
 }
+
 const deleteMovie = async (userId: string, movieId: string) => {
     const movie = await movieModel.findOneAndDelete({ _id: movieId, createdBy: userId });
+    if (movie) {
+        const deletedReviewCount = await reviewModel.deleteMany({ movieId: movieId });
+        console.log("deletedReviewCount", deletedReviewCount);
+    }
     return movie;
 }
 
@@ -99,9 +104,9 @@ const getAllMoviesRankedByRating = async (searchFilter: string) => {
     return moviesWithAvgRating;
 }
 
-const searchMovieByName = async (id: string) => {
-    const movies = await movieModel.findById(id).select("-createdBy");
+const getOwnMovies = async (userId: string) => {
+    const movies = await movieModel.find({ createdBy: userId }).select("-__v");
     return movies;
 }
 
-export { getAllMovies, getMovieById, createMovie, deleteMovie, getAllMoviesRankedByRating }
+export { getAllMovies, getMovieById, createMovie, deleteMovie, getAllMoviesRankedByRating, getOwnMovies }

@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import BasicButton from '../../components/button/basic-button';
 import { useForm } from 'react-hook-form';
 import { loginUser } from '../../api/user';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { UserContext } from '../../context';
 
 function LogIn() {

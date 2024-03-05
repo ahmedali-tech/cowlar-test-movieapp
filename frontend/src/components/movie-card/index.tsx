@@ -18,8 +18,8 @@ export const MovieCard: FC<MovieCardProps> = ({ title, imgUrl, releaseYear, genr
         <div className='select-none group' style={{ width: '230px', height: "345px" }}>
             <div className='relative rounded-lg overflow-hidden'>
                 <img src={imgUrl} alt={title} className='aspect-[2/3] w-[100%] h-[100%]' />
-                <a
-                    href={`#`}
+                <Link
+                    to={`/movies/${id}`}
                     className='absolute inset-0 z-10 md:hidden'
                 />
                 <div className='absolute inset-0 bg-black/70 none flex-col items-center justify-center gap-4 text-sm font-bold opacity-0 group-hover:opacity-100 duration-300 text-center hidden md:flex'>
