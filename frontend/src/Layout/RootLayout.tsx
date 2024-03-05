@@ -11,7 +11,7 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => {
         <>
             <Navbar />
             {children}
-          
+       
         </>
     )
 }

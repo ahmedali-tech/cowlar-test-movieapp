@@ -1,19 +1,41 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Loading from '../../components/loading';
 import BasicButton from '../../components/button/basic-button';
+import { signUpUser } from '../../api/user';
+import { Toaster } from 'react-hot-toast';
 
 function SignUp() {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = (data: any) => {
-        console.log(data);
-        // Add your signup logic here
+    const [submitLoading, setSubmitLoading] = useState<boolean>(false);
+
+    const navigate = useNavigate();
+
+    const onSubmit = async (data: any) => {
+        setSubmitLoading(true);
+        try {
+            const user = await signUpUser(data.email, data.password, data.fullName, data.phoneNumber);
+            console.log(user);
+            if (user) {
+                localStorage.setItem('COWLAR_TOKEN', user.token);
+                setTimeout(() => { //delay for the toast to be readable
+                    navigate('/');
+                }, 750);
+            }
+        } catch (error) {
+            setSubmitLoading(false);
+            console.log('error', error);
+        }
+        setSubmitLoading(false);
     };
 
     return (
         <>
+            <div>
+                <Toaster />
+            </div>
             <div className="custom-bg-gradient flex min-h-screen items-center justify-center px-4" style={{ backgroundImage: "linear-gradient(to top, rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.8) 100%),url(/images/theatre-551797_1280.jpg)" }}>
                 <div className="w-full rounded-lg bg-white shadow sm:max-w-md md:mt-0 xl:p-0">
                     <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
@@ -63,7 +85,7 @@ function SignUp() {
                                     className={`block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm ${errors.phoneNumber ? 'border-red-500' : ''}`}
                                     placeholder="923121231234"
                                     inputMode="numeric"
-                                    {...register('phoneNumber', { required: 'Phone Number is required', minLength: { value: 6, message: 'Phone Number is too short' }, maxLength: { value: 12, message: 'Phone Number is too long' }, pattern: { value: /^[0-9]*$/, message: 'Please enter only numeric values' } })}
+                                    {...register('phoneNumber', { required: 'Phone Number is required', pattern: { value:  /^\92\d{10}$/, message: 'Please enter only numeric values of the format: 923487201234' } })}
                                 />
                                 {errors.phoneNumber && <span className="text-sm text-red-500">{errors.phoneNumber.message?.toString()}</span>}
                             </div>
@@ -86,7 +108,7 @@ function SignUp() {
 
                             <div className="flex items-center justify-center">
                                 <BasicButton
-                                    isLoading={false}
+                                    isLoading={submitLoading}
                                     text="Sign up"
                                     loadingText="Signing up ..."
                                     type='submit'

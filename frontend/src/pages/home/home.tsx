@@ -1,17 +1,21 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ContainerLayout from '../../Layout/ContainerLayout';
 import { MovieCard } from '../../components/movie-card';
-import Navbar from '../../components/navbar/navbar';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import RootLayout from '../../Layout/RootLayout';
 import React from 'react';
 import MovieModal from '../../components/modals/movie-modal';
 import { useForm } from 'react-hook-form';
+import toast, { Toaster } from 'react-hot-toast';
+import { getAllMovies } from '../../api/movies';
+import Loading from '../../components/loading';
 
 function Home() {
     const { register, handleSubmit } = useForm();
 
-    const [isModalOpen, setModalOpen] = React.useState(false);
+    const [isPageLoading, setIspageLoading] = React.useState<boolean>(false);
+    const [isModalOpen, setModalOpen] = React.useState<boolean>(false);
+    const [movies, setMovies] = React.useState([]);
 
     const openModal = () => {
         setModalOpen(true);
@@ -21,13 +25,51 @@ function Home() {
         setModalOpen(false);
     };
 
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const onSubmit = async (data: any) => {
+        const movieId = data.search;
+        try {
+            setIspageLoading(true);
+            const { data } = await getAllMovies(movieId) as any;
+            console.log("from use effect: ", data);
+            setMovies(data)
+            setIspageLoading(false);
+        } catch (error) {
+            toast.error("There was an error fetching movies, try refreshing!", { className: "text-center" })
+        }
     }
 
-    console.log(isModalOpen);
+    React.useEffect(() => {
+        (async () => {
+
+            try {
+                setIspageLoading(true);
+                const { data } = await getAllMovies("") as any;
+                console.log("from use effect: ", data);
+                setMovies(data)
+                setIspageLoading(false);
+            } catch (error) {
+                console.log('error', error);
+            }
+        })()
+    }, [])
+
+    console.log(movies)
+
+
+    if (isPageLoading) {
+        return (
+            <RootLayout>
+                <div className="w-screen h-screen flex items-center justify-center">
+                    <Loading />
+                    <p className="mx-2">Loading ...</p>
+                </div>
+            </RootLayout>
+        );
+    }
+
     return (
         <>
+            <div><Toaster /></div>
             <RootLayout>
                 <ContainerLayout>
                     <div className='flex flex-col'>
@@ -89,20 +131,14 @@ function Home() {
                         </div>
 
                         <main className='mx-auto max-w-7xl px-5 my-12'>
-                            {/* <h2 className="mt-24 capitalize text-3xl font-bold mb-6 md:text-4xl">
-                            {"hi"}</h2> */}
-
                             <div className='grid grid-cols-1ta gap-x-5 gap-y-10 md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4 lg:gap-x-7 lg:gap-y-14'>
-                                <MovieCard />
-                                <MovieCard />
-                                <MovieCard />
-                                <MovieCard />
-                                <MovieCard />
-                                <MovieCard />
-                                <MovieCard />
-                                <MovieCard />
-                                <MovieCard />
-                                <MovieCard />
+                                {
+                                    movies?.map((e: any) => {
+                                        return (
+                                            < MovieCard id={e._id} title={e.name} imgUrl={e.imgUrl} releaseYear={e.releaseYear} genre={e.genre} />
+                                        )
+                                    })
+                                }
                             </div>
                         </main>
                     </div>
