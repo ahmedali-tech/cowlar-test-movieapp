@@ -19,7 +19,7 @@ const signUpController = catchAsync(async (req: ICustomRequest, res: ICustomResp
         data: {
             name: newUser?.name,
             email: newUser?.email,
-            phoneNumber: newUser?.phoneNumber
+            id: newUser?._id
         }
     })
 });

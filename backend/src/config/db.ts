@@ -11,7 +11,7 @@ export default function establishDBConnection(DB: string): void {
 	mongoose
 		.connect(DB)
 		.then((con: any) => {
-			console.log('DB connected sir!!!');
+			console.log('DB connected!!!');
 		})
 		.catch((err: any) => console.log(err));
 }
