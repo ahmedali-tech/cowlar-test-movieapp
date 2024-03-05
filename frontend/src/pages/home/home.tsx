@@ -95,8 +95,8 @@ function Home() {
             <Toaster />
             <RootLayout>
                 <ContainerLayout>
-                    <div className='flex flex-col'>
-                        <div className='flex justify-center flex-wrap gap-3 sm:justify-between'>
+                    <div className='flex flex-col w-full h-full ' style={{ backgroundImage: "linear-gradient(to top, rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.8) 100%),url(https://th.bing.com/th/id/OIP.IzJwZ14LCP3KL_qOtGS78QHaEE?w=286&h=180&c=7&r=0&o=5&pid=1.7)" }}>
+                        <div className='flex justify-center flex-wrap gap-3 sm:justify-between pr-10 pl-10 pt-5'>
                             <h2 className='capitalize text-2xl font-bold md:text-3xl'>
                                 All Movies
                             </h2>

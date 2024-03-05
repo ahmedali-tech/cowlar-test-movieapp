@@ -17,8 +17,9 @@ interface IMoviePoster {
     name: string;
     genre: string;
     releaseYear: string;
+    videoUrl: string;
 }
-const MoviePoster: FC<IMoviePoster> = ({ imgUrl, description, name, genre, releaseYear }) => {
+const MoviePoster: FC<IMoviePoster> = ({ imgUrl, description, name, genre, releaseYear, videoUrl }) => {
 
     const handleCopyClick = () => {
         const currentUrl = `${window.location.origin}${location.pathname}${location.search}`;
@@ -110,15 +111,17 @@ const MoviePoster: FC<IMoviePoster> = ({ imgUrl, description, name, genre, relea
                                 </button>
                                 <span className='h-12 w-0.5 bg-white/10 md:block' />
                                 <div className='flex items-center gap-3 text-sm font-bold'>
-                                    <button className='cursor-default rounded-full bg-primaryGreen text-white px-8 py-3 disabled:bg-zinc-600 disabled:hover:bg-zinc-600 disabled:text-white'>
-                                        <FontAwesomeIcon
-                                            icon={faVideo}
-                                            className='h-4 mr-1'
-                                            height={16}
-                                            color='white'
-                                        />
-                                        Trailer
-                                    </button>
+                                <a href={videoUrl} target='_blank' className='cursor-pointer'>
+                                        <button className='cursor-pointer rounded-full bg-primaryRed text-white px-8 py-3 disabled:bg-zinc-600 disabled:hover:bg-zinc-600 disabled:text-white'>
+                                            <FontAwesomeIcon
+                                                icon={faVideo}
+                                                className='h-4 mr-1'
+                                                height={16}
+                                                color='white'
+                                            />
+                                            Trailer
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
