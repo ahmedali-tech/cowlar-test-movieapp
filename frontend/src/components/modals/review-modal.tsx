@@ -35,7 +35,7 @@ const Modal: FC<Props> = ({ isOpen, onClose }) => {
                         <h2 className="text-2xl font-bold mb-6 text-center">Add review</h2>
 
                         <div className='flex flex-col gap-4'>
-                            <form onSubmit={handleSubmit(onSubmit)}>
+                            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
                                 <div>
                                     <label
                                         htmlFor="Comment"
@@ -76,6 +76,7 @@ const Modal: FC<Props> = ({ isOpen, onClose }) => {
                                     text="Submit"
                                     loadingText="Submitting ..."
                                     type='submit'
+                                    className='w-min self-end'
                                 />
                             </form>
                         </div>

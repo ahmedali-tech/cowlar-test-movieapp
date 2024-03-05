@@ -13,14 +13,14 @@ const ReviewCard: FC<IReviewProps> = ({ own = false }) => {
                 <footer className="flex justify-between items-center mb-2">
                     <div className="flex items-center">
                         <p className="inline-flex items-center mr-3 text-sm text-[#e7e7e7] dark:text-white font-semibold">
-                            <div className='flex items-center'>
+                            {/* <div className='flex items-center'>
                                 <FontAwesomeIcon
                                     icon={faUser}
                                     className="mr-2 w-6 h-6 rounded-full bg-[#f6f6f6] p-2"
                                     height={16}
                                     color='black'
                                 /> Michael Gough
-                            </div>
+                            </div> */}
                         </p>
                         <p className="text-sm text-[#d1d1d1] dark:text-gray-400"><time dateTime="2022-02-08"
                             title="February 8th, 2022">Feb. 8, 2022</time></p>

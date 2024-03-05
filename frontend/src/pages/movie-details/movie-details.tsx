@@ -182,6 +182,7 @@ function MovieDetails() {
                                 <form className="mb-6 self-end">
                                     <button
                                         onClick={openModal}
+                                        type='button'
                                         className="inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-white bg-primaryGreen rounded-lg"                                    >
                                         Write a review!
                                     </button>

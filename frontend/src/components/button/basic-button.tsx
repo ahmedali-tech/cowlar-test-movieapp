@@ -8,6 +8,7 @@ type Props = {
     color?: boolean;
     type?: 'button' | 'submit' | 'reset';
     onClick?: () => void;
+    className?: string;
 };
 
 const LoadingIcon = () => (
@@ -38,10 +39,9 @@ const BasicButton: React.FC<Props> = ({
     color,
     type = 'submit',
     onClick,
+    className
 }) => {
-    const buttonClasses = `text-white my-2 font-medium rounded text-sm md:text-base lg:text-lg px-5 py-2.5 text-center mr-2 inline-flex items-center transition-all 
-    ${isLoading ? 'cursor-wait' : ''}
-    ${disabled ? 'bg-gray-500 cursor-not-allowed' : `${color ? 'bg-orange-700 hover:bg-orange-800 focus:ring-orange-300' : 'bg-primaryGreen hover:bg-secondaryGreen'} focus:ring-4 focus:outline-none`}`;
+    const buttonClasses = `text-white my-2 font-medium rounded text-sm md:text-base lg:text-lg px-5 py-2.5 text-center mr-2 inline-flex items-center transition-all ${isLoading ? 'cursor-wait' : ''} ${disabled ? 'bg-gray-500 cursor-not-allowed' : `${color ? 'bg-orange-700 hover:bg-orange-800 focus:ring-orange-300' : 'bg-primaryGreen hover:bg-secondaryGreen'} focus:ring-4 focus:outline-none`} ${className ?? className}`;
 
     return (
         <button
