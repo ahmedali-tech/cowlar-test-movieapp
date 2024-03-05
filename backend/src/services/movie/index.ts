@@ -1,3 +1,3 @@
-import { getAllMovies, getMovieById, createMovie, deleteMovie } from "./movie";
+import { getAllMovies, getMovieById, createMovie, deleteMovie, getAllMoviesRankedByRating } from "./movie";
 
-export { getAllMovies, getMovieById, createMovie, deleteMovie }
+export { getAllMovies, getMovieById, createMovie, deleteMovie, getAllMoviesRankedByRating }

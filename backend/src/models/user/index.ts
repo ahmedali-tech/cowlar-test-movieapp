@@ -7,7 +7,7 @@ interface IUser extends Document {
 	password: string;
 	email: string;
 	phoneNumber: string;
-	matchPassword(pass_: string): Promise<boolean>;
+	matchPassword(candidatePassword: string, actualPass: string): Promise<boolean>;
 }
 
 const userSchema = new mongoose.Schema({
@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
 	},
 	password: {
 		type: String,
+		select: false,
 		required: [true, 'Please enter your password'],
 		minlength: [8, 'Password should be atleast 8 characters long']
 	},
@@ -58,8 +59,9 @@ userSchema.pre<IUser>('save', async function (next: any) {
 	next();
 });
 
-userSchema.methods.matchPassword = async function (pass_: string) {
-	const match = await bcrypt.compare(pass_, this.password);
+userSchema.methods.matchPassword = async function (candidatePassword: string, actualPass: string) {
+	console.log(candidatePassword, actualPass);
+	const match = await bcrypt.compare(candidatePassword, actualPass);
 	return match;
 };
 

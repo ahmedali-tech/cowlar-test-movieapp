@@ -1,14 +1,19 @@
 import { ICustomRequest, ICustomResponse } from "../../types/express";
 import { AppError } from "../../utils/app-error";
 import { catchAsync } from "../../utils/catch-async";
-import { getAllMovies as getAllMoviesService, getMovieById, createMovie as createMovieService, deleteMovie as deleteMovieService } from "../../services/movie";
+import { getAllMovies as getAllMoviesService, getMovieById, createMovie as createMovieService, deleteMovie as deleteMovieService, getAllMoviesRankedByRating } from "../../services/movie";
 import { IMovie } from "../../types/movie";
 import { extractUserFromJwt, extractUserFromReq } from "../../utils/jwt";
 import { NextFunction } from "express";
 
 
 const getAllMovies = catchAsync(async (req: ICustomRequest, res: ICustomResponse) => {
-    const allMovies = await getAllMoviesService();
+    const isRakingRequired = req.query.sorted;
+
+    console.log("isRakingRequired", isRakingRequired);
+
+    const allMovies = isRakingRequired ? await getAllMoviesRankedByRating() : await getAllMoviesService();
+
     return res.status(200).json({
         message: "success",
         data: allMovies
@@ -61,6 +66,8 @@ const deleteMovie = catchAsync(async (req: ICustomRequest, res: ICustomResponse,
         message: "success",
     });
 });
+
+
 
 export { getAllMovies, getMovie, createMovie, deleteMovie };
 
