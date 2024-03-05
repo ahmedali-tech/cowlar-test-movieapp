@@ -35,7 +35,7 @@ export const MovieCard: FC<MovieCardProps> = ({ title, imgUrl, releaseYear, genr
                             className='text-primaryGreen hover:text-secondaryGreen duration-150 text-lg font-bold truncate no-underline hover:underline'
                         >
                             <abbr title={title} className='no-underline'>
-                                {title}
+                                {`${title.charAt(0).toUpperCase() + title.slice(1)}`}
                             </abbr>
                         </Link>
                         <span className='text-primaryGreen text-sm font-medium hidden md:block'>

@@ -6,18 +6,23 @@ const UserContext = createContext<IContext>(null!);
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-  const updateUser = (userData: IUser) => {
+  const updateUser = (userData: IUser | null) => {
     setUser(() => userData);
   };
 
   useEffect(() => {
     console.log(user);
-  }, [user]);
+    console.log("from context -> isLoggedIn: ", isLoggedIn);
+    console.log(localStorage.getItem("COWLAR_TOKEN"));
+  }, [user, isLoggedIn]);
 
   const contextValue = {
     user,
     updateUser,
+    isLoggedIn,
+    setIsLoggedIn
   };
 
   return (

@@ -4,14 +4,18 @@ import React, { FC, useState } from 'react';
 
 type Iprops = {
     initialRating: number;
-    onChange: any;
+    onChange?: any;
+    changeAble?: boolean;
 }
-const StarRating: FC<Iprops> = ({ initialRating = 1, onChange }) => {
+const StarRating: FC<Iprops> = ({ initialRating = 1, onChange, changeAble = true }) => {
+    console.log(initialRating);
     const [rating, setRating] = useState(initialRating);
 
     const handleClick = (selectedRating: React.SetStateAction<number>) => {
-        setRating(selectedRating);
-        onChange(selectedRating);
+        if (changeAble) {
+            setRating(selectedRating);
+            onChange(selectedRating);
+        }
     };
 
     return (
@@ -21,8 +25,10 @@ const StarRating: FC<Iprops> = ({ initialRating = 1, onChange }) => {
                     <button
                         key={star}
                         onClick={() => handleClick(star)}
+                        type='button'
+                        className={`${changeAble ? "cursor-pointer" : "cursor-default"}`}
                     >
-                        <FontAwesomeIcon icon={faStar} color={star <= rating ? 'yellow' : 'gray'} className='text-3xl focus:outline-none focus:ring focus:border-blue-300' />
+                        <FontAwesomeIcon icon={faStar} color={star <= rating ? 'yellow' : 'gray'} className='text-xl focus:outline-none focus:ring focus:border-blue-300' />
                     </button>
                 </>
             ))}

@@ -3,36 +3,45 @@ import ContainerLayout from '../../Layout/ContainerLayout';
 import { MovieCard } from '../../components/movie-card';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import RootLayout from '../../Layout/RootLayout';
-import React from 'react';
+import React, { useContext } from 'react';
 import MovieModal from '../../components/modals/movie-modal';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import { getAllMovies } from '../../api/movies';
 import Loading from '../../components/loading';
+import { UserContext } from '../../context';
+import useAuthVerification from '../../hooks/useAuthentication';
 
 function Home() {
     const { register, handleSubmit } = useForm();
 
-    const [isPageLoading, setIspageLoading] = React.useState<boolean>(false);
+    const { isLoggedIn, user } = useContext(UserContext);
+    // const {shouldRefetchMovies, setShouldRe}
+
+    const { pageLoading } = useAuthVerification();
+
+    console.log("home->isLoggedIn->", isLoggedIn);
+    console.log("home->user->", user);
+
+    const [isPageLoading, setIsPageLoading] = React.useState<boolean>(false);
     const [isModalOpen, setModalOpen] = React.useState<boolean>(false);
     const [movies, setMovies] = React.useState([]);
 
     const openModal = () => {
-        setModalOpen(true);
+        isLoggedIn ? setModalOpen(true) : toast("Wont work! You need to login first!", { icon: "🙂" })
     };
 
     const closeModal = () => {
         setModalOpen(false);
     };
 
-    const onSubmit = async (data: any) => {
+    const reFetchMovies = async (data: any) => {
         const movieId = data.search;
         try {
-            setIspageLoading(true);
+            setIsPageLoading(true);
             const { data } = await getAllMovies(movieId) as any;
-            console.log("from use effect: ", data);
             setMovies(data)
-            setIspageLoading(false);
+            setIsPageLoading(false);
         } catch (error) {
             toast.error("There was an error fetching movies, try refreshing!", { className: "text-center" })
         }
@@ -40,36 +49,50 @@ function Home() {
 
     React.useEffect(() => {
         (async () => {
-
             try {
-                setIspageLoading(true);
+                setIsPageLoading(true);
                 const { data } = await getAllMovies("") as any;
                 console.log("from use effect: ", data);
                 setMovies(data)
-                setIspageLoading(false);
+                setIsPageLoading(false);
             } catch (error) {
                 console.log('error', error);
+                toast.error("There was an error fetching movies, try refreshing!", { className: "text-center" })
             }
         })()
     }, [])
 
-    console.log(movies)
-
-
     if (isPageLoading) {
         return (
-            <RootLayout>
-                <div className="w-screen h-screen flex items-center justify-center">
-                    <Loading />
-                    <p className="mx-2">Loading ...</p>
-                </div>
-            </RootLayout>
+            <>
+                <Toaster />
+                <RootLayout>
+                    <div className="w-screen h-screen flex items-center justify-center">
+                        <Loading />
+                        <p className="mx-2">Loading ...</p>
+                    </div>
+                </RootLayout>
+            </>
+        );
+    }
+
+    if (pageLoading) {
+        return (
+            <>
+                <Toaster />
+                <RootLayout>
+                    <div className="w-screen h-screen flex items-center justify-center">
+                        <Loading />
+                        <p className="mx-2">Loading ...</p>
+                    </div>
+                </RootLayout>
+            </>
         );
     }
 
     return (
         <>
-            <div><Toaster /></div>
+            <Toaster />
             <RootLayout>
                 <ContainerLayout>
                     <div className='flex flex-col'>
@@ -87,7 +110,7 @@ function Home() {
                             </button>
                         </div>
                         <div className='py-5 flex items-end justify-center'>
-                            <form onSubmit={handleSubmit(onSubmit)}>
+                            <form onSubmit={handleSubmit(reFetchMovies)}>
                                 <label
                                     htmlFor='default-search'
                                     className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
@@ -140,12 +163,19 @@ function Home() {
                                     })
                                 }
                             </div>
+                            {
+                                movies.length === 0 && (
+                                    <>
+                                        <p className='text-center font-medium'> No movies found :(</p>
+                                    </>
+                                )
+                            }
                         </main>
                     </div>
                 </ContainerLayout>
             </RootLayout>
 
-            <MovieModal isOpen={isModalOpen} onClose={closeModal} />
+            <MovieModal isOpen={isModalOpen} onClose={closeModal} onSubmit={reFetchMovies} />
         </>
     );
 }

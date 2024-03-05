@@ -2,18 +2,17 @@ import mongoose, { Document, Model, Schema } from 'mongoose';
 import { IMovie } from '../../types/movie';
 
 const movieGenres = [
-	"Action",
-	"Comedy",
-	"Drama",
-	"Science Fiction",
-	"Horror",
-	"Romance",
-	"Adventure",
-	"Fantasy",
-	"Mystery",
-	"Thriller"
+	"action",
+	"comedy",
+	"drama",
+	"fiction",
+	"horror",
+	"romance",
+	"adventure",
+	"fantasy",
+	"mystery",
+	"thriller"
 ];
-
 
 const movieSchema = new mongoose.Schema({
 	name: {

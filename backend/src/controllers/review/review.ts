@@ -4,20 +4,28 @@ import { AppError } from "../../utils/app-error";
 import { catchAsync } from "../../utils/catch-async";
 import { extractUserFromReq } from "../../utils/jwt";
 import reviewModel from "../../models/review";
-import { getAllReviews as getAllReviewsService, getReview as getReviewService, createReview as createReviewService, deleteReview as deleteReviewService, updateReview as updateReviewService } from "../../services/review";
+import { getOwnReview, getAllReviews as getAllReviewsService, getReview as getReviewService, createReview as createReviewService, deleteReview as deleteReviewService, updateReview as updateReviewService } from "../../services/review";
 
 
 const getAllReviews = catchAsync(async (req: ICustomRequest, res: ICustomResponse, next: NextFunction) => {
 
     const movieId = req.params.movieId
-    if (!movieId) return next(new AppError("Movie Id was not provided", 403))
+    const userId = await extractUserFromReq(req, next);
+
+    if (!movieId) return next(new AppError("Movie Id was not provided", 403));
+
+    let ownReview;
+
+    if (userId) {
+        ownReview = await getOwnReview(movieId, userId);
+    }
 
     const reviews = await getAllReviewsService(movieId)
 
     return res.status(200).json({
         message: "success",
         length: reviews.length,
-        data: reviews
+        data: { ownReview: ownReview, otherReviews: reviews }
     });
 });
 

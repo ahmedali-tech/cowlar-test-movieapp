@@ -8,7 +8,7 @@ const getAllMovies = async () => {
 }
 
 const getMovieById = async (id: string) => {
-    const movies = await movieModel.findById(id).select("-createdBy");
+    const movies = await movieModel.findById(id).select("-createdBy -__v");
     return movies;
 }
 

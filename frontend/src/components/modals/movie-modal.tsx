@@ -1,13 +1,24 @@
 import { faChevronDown, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { FC, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import StarRating from '../star-rating';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import BasicButton from '../button/basic-button';
+import { createMovies } from '../../api/movies';
+import { UserContext } from '../../context';
+import toast from 'react-hot-toast';
 
 type Props = {
     isOpen: any;
     onClose: any;
+    onSubmit: any;
+}
+
+interface Inputs {
+    name: string,
+    releaseYear: string,
+    description: string,
+    genre: string
 }
 
 enum MovieGenre {
@@ -23,14 +34,44 @@ enum MovieGenre {
     Adventure = 'adventure',
 }
 
+const MovieModal: FC<Props> = ({ isOpen, onClose, onSubmit }) => {
 
-const MovieModal: FC<Props> = ({ isOpen, onClose }) => {
+    const { register, control, handleSubmit, formState: { errors }, reset } = useForm<Inputs>();
 
-    const { register, control, handleSubmit, formState: { errors } } = useForm();
+    const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const { user, isLoggedIn } = useContext(UserContext);
+
+
+    const onFormSubmit: SubmitHandler<Inputs> = async (data) => {
+        setSubmitLoading(true);
+        try {
+            if (user) {
+                const newMovie = await createMovies(data, user?.token);
+                if (newMovie) {
+
+                    setSubmitLoading(false);
+                    onClose();
+                    onSubmit({ search: "" }) //makes the movie page rerender and refetch movies
+                    toast.success("Movie has been added!")
+
+                }
+                else {
+                    toast.error("There was unexpected error, try again!")
+                    onClose();
+                }
+            }
+            else {
+                toast("Wont work! You need to login first!", { icon: "🙂" })
+            }
+
+        } catch (error) {
+            setSubmitLoading(false);
+            toast.error("There has been an error, try again!")
+        }
+        setSubmitLoading(false);
     };
+
     return (
         <>
             {isOpen && (
@@ -39,7 +80,7 @@ const MovieModal: FC<Props> = ({ isOpen, onClose }) => {
                         <div className='w-full flex justify-end'>
                             <button
                                 className=" text-primaryGreen hover:text-gray-800"
-                                onClick={onClose}
+                                onClick={() => { onClose(); reset(); }}
                             >
                                 <FontAwesomeIcon icon={faXmark} className='w-8 h-8' height={"40"} color='red' />
                             </button>
@@ -47,7 +88,7 @@ const MovieModal: FC<Props> = ({ isOpen, onClose }) => {
                         <h2 className="text-2xl font-bold mb-6 text-center">Add Movie</h2>
 
                         <div className='flex flex-col gap-4'>
-                            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+                            <form onSubmit={handleSubmit(onFormSubmit)} className='flex flex-col gap-4'>
                                 <div>
                                     <label
                                         htmlFor="name"
@@ -80,7 +121,7 @@ const MovieModal: FC<Props> = ({ isOpen, onClose }) => {
                                         {...register('releaseYear', {
                                             required: 'Release Year is required',
                                             validate: {
-                                                isNumeric: (value) => !isNaN(value) && Number.isInteger(+value) || 'Release Year must be a number',
+                                                isNumeric: (value) => !isNaN(parseInt(value, 10)) && Number.isInteger(+value) || 'Release Year must be a number',
                                                 isValidYear: (value) => {
                                                     const year = parseInt(value, 10);
                                                     const currentYear = new Date().getFullYear();
@@ -125,9 +166,10 @@ const MovieModal: FC<Props> = ({ isOpen, onClose }) => {
                                         render={({ field }) => (
                                             <select
                                                 {...field}
+                                                defaultValue={"select"}
                                                 className="block appearance-none w-full bg-[#292929] border border-gray-300 text-white hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
                                             >
-                                                <option value="" selected={true} disabled>
+                                                <option value="" disabled>
                                                     Select
                                                 </option>
                                                 {Object.values(MovieGenre).map((option) => (
@@ -149,11 +191,12 @@ const MovieModal: FC<Props> = ({ isOpen, onClose }) => {
                                 <span className="text-sm text-gray-200">Note: Dummy cover photo and movie links will be added automatically.</span>
 
                                 <BasicButton
-                                    isLoading={false}
-                                    text="Submit"
-                                    loadingText="Submitting ..."
+                                    isLoading={submitLoading}
+                                    text="Create"
+                                    loadingText="Creating..."
                                     type='submit'
                                     className='w-min self-end'
+                                    disabled={!isLoggedIn}
                                 />
                             </form>
                         </div>

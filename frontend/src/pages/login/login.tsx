@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import BasicButton from '../../components/button/basic-button';
 import { useForm } from 'react-hook-form';
 import { loginUser } from '../../api/user';
 import toast, { Toaster } from 'react-hot-toast';
+import { UserContext } from '../../context';
 
 function LogIn() {
     const [submitLoading, setSubmitLoading] = useState<boolean>(false);
@@ -11,13 +12,17 @@ function LogIn() {
     const { register, handleSubmit } = useForm();
     const navigate = useNavigate();
 
+    const { setIsLoggedIn, updateUser } = useContext(UserContext);
+
     const onSubmit = async (data: any) => {
         setSubmitLoading(true);
         try {
             const user = await loginUser(data.email, data.password);
             console.log(user);
             if (user) {
+                updateUser({...user.user, token: user.token });
                 localStorage.setItem('COWLAR_TOKEN', user.token);
+                setIsLoggedIn(true);
                 setTimeout(() => { //delay for the toast to be readable
                     navigate('/');
                 }, 750);
@@ -31,9 +36,7 @@ function LogIn() {
 
     return (
         <>
-            <div>
-                <Toaster />
-            </div>
+            <Toaster />
             <div
                 className='custom-bg-gradient flex min-h-screen items-center justify-center px-4'
                 style={{

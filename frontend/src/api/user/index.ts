@@ -42,3 +42,22 @@ export const signUpUser = async (email: string, password: string, name: string, 
     }
     return null;
 };
+
+
+export const verifyUser = async (token: string) => {
+    try {
+        const response = await axios.get('/auth/verify-user', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (response.status === 200) {
+            return response.data.data;
+        } else {
+            throw new Error('Token verification failed');
+        }
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};

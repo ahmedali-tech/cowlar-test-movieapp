@@ -1,3 +1,3 @@
-import { getAllReviews, getReview, createReview, deleteReview, updateReview } from "./review";
+import { getAllReviews, getReview, createReview, deleteReview, updateReview, getOwnReview } from "./review";
 
-export { getAllReviews, getReview, createReview, deleteReview, updateReview }
+export { getAllReviews, getReview, createReview, deleteReview, updateReview,getOwnReview }

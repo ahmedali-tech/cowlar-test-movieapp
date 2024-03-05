@@ -6,8 +6,40 @@ interface IUpdateBody {
 }
 
 const getAllReviews = async (movieId: string) => {
-    const reviews = await reviewModel.find({ movieId: movieId });
-    return reviews;
+    const reviews = await reviewModel.find({ movieId: movieId }).populate({
+        path: 'userId',
+        select: 'name',
+    }).select('-__v').lean();
+    const flattenedReviews = reviews.map((review: any) => {
+        return {
+            _id: review._id,
+            movieId: review.movieId,
+            comment: review.comment,
+            ratingStars: review.ratingStars,
+            createdAt: review.createdAt,
+            updatedAt: review.updatedAt,
+            userName: review.userId.name,
+        };
+    });
+    return flattenedReviews;
+}
+const getOwnReview = async (movieId: string, userId: string) => {
+    const reviews = await reviewModel.find({ movieId: movieId, userId: userId }).populate({
+        path: 'userId',
+        select: 'name',
+    }).select('-__v').lean();
+    const flattenedReviews = reviews.map((review: any) => {
+        return {
+            _id: review._id,
+            movieId: review.movieId,
+            comment: review.comment,
+            ratingStars: review.ratingStars,
+            createdAt: review.createdAt,
+            updatedAt: review.updatedAt,
+            userName: review.userId.name,
+        };
+    });
+    return flattenedReviews;
 }
 
 const getReview = async (movieId: string, reviewId: string) => {
@@ -31,4 +63,4 @@ const updateReview = async (movieId: string, reviewId: string, userId: string, u
     return updatedReview;
 }
 
-export { getAllReviews, getReview, createReview, deleteReview, updateReview }
+export { getAllReviews, getReview, createReview, deleteReview, updateReview, getOwnReview }
