@@ -8,11 +8,10 @@ import { NextFunction } from "express";
 
 
 const getAllMovies = catchAsync(async (req: ICustomRequest, res: ICustomResponse) => {
-    const isRakingRequired = req.query.sorted;
 
-    console.log("isRakingRequired", isRakingRequired);
+    const searchFilter = req.query.name as string || "";
 
-    const allMovies = isRakingRequired ? await getAllMoviesRankedByRating() : await getAllMoviesService();
+    const allMovies = await getAllMoviesRankedByRating(searchFilter)
 
     return res.status(200).json({
         message: "success",

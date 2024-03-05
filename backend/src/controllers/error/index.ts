@@ -6,8 +6,12 @@ const handleCastErr = (err: any): any => {
     return new AppError(`Incorrect ${err.path}: ${err.value}`, 400);
 }
 const handleValidationErr = (err: any): any => {
-    return new AppError(`${err.message}`, 400);
-    
+    // console.log(err.errors.message);
+    // return new AppError(`${err.message}`, 400);
+    const errors = Object.values(err.errors).map((el: any) => el.message);
+    const message = `Invalid input. ${errors.join('. ')}`;
+    return new AppError(message, 400);
+
 }
 
 const handleDuplicateKeyErr = (err: any): any => {
